@@ -763,6 +763,7 @@ dev.off()
 ## Changes and additions 
 **Volume 6 (to 2022-12-28)**  
 * Added international observation comparison  
+* Added open code repository: [https://github.com/adrian-power/afsm](https://github.com/adrian-power/afsm)  
 
 **Volume 5 (to 2022-08-31)**  
 * Added Fungimap flags to the Top species by proportion of research grade observations  
@@ -1689,9 +1690,11 @@ knitr::kable(
 )
 
 ```
+## Open Code
+The source code for the report is available here: [https://github.com/adrian-power/afsm](https://github.com/adrian-power/afsm)  
 
 ## Copyright
-This work is licensed under a [Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License](http://creativecommons.org/licenses/by-nc-nd/4.0/).
+This work, including the [source code](https://github.com/adrian-power/afsm) is licensed under a [Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License](http://creativecommons.org/licenses/by-nc-nd/4.0/).
 
 ## Contact  
 * iNaturalist: **https://www.inaturalist.org/people/adrian_aus/**
