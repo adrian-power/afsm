@@ -76,7 +76,7 @@ mysqlconnection = dbConnect(
                             MySQL(), 
                             user = '', 
                             password = '', 
-                            dbname = '',
+                            dbname = 'fungi',
                             host = ''
                             )
 
@@ -764,6 +764,7 @@ dev.off()
 **Volume 6 (to 2022-12-28)**  
 * Added international observation comparison  
 * Added open code repository: [https://github.com/adrian-power/afsm](https://github.com/adrian-power/afsm)  
+* Fungi photography guide  
 
 **Volume 5 (to 2022-08-31)**  
 * Added Fungimap flags to the Top species by proportion of research grade observations  
@@ -1692,6 +1693,13 @@ knitr::kable(
 ```
 ## Open Code
 The source code for the report is available here: [https://github.com/adrian-power/afsm](https://github.com/adrian-power/afsm)  
+
+## How to take photos of fungi for identification purposes
+* take photographs from different angles. Get close and photograph the fungus from above, the side and most importantly, from below. This will help show the different features and make it easier to identify
+* use a mirror or smartphone to get photos from below (of the gills or pores) without disturbing the fungus
+* use a flash or light to get good photos in focus. Photos from too far away, or that are blurry are hard to ID
+* take a photo of the surrounding habitat for context - was the fungi on a log, in the soil, by itself, or with others
+* most of all, have fun!
 
 ## Copyright
 This work, including the [source code](https://github.com/adrian-power/afsm) is licensed under a [Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License](http://creativecommons.org/licenses/by-nc-nd/4.0/).
