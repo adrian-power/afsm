@@ -51,7 +51,7 @@ knitr::opts_chunk$set(warning = FALSE, message = FALSE)
 
 # tinytex::install_tinytex() # required for r markdown to work
 
-setwd("C:/Users/Adrian/Desktop/Mush/Analysis")
+setwd("F:/Documents/Mush/Analysis")
 
 library(RMySQL)
 library(kableExtra) #table formatting
@@ -1663,6 +1663,23 @@ knitr::kable(
 
 \newpage
 \footnotesize
+## How to take photos of fungi for identification purposes
+So you're becoming interested in fungi, that's fantastic!
+
+Here are 5 tips to taking photos of fungi I wish I had when starting out: 
+
+* take photographs from different angles. Get close and photograph the fungus from above, the side and most importantly, from below. This will help show the different features and make it easier to identify
+* use a mirror or smartphone to get photos from below (of the gills or pores) without disturbing the fungus
+* use a flash or light to get good photos in focus. Photos from too far away, or that are blurry are hard to ID
+* take a photo of the surrounding habitat for context - was the fungi on a log, in the soil, by itself, or with others
+* most of all, have fun!
+
+The most important thing I can suggest is getting a photo from below. Fungi can have all sorts of different structures, like gills, pores and spines. Take the example below. You would be forgiven for thinking these are the same mushroom from above, but after seeing a photo from underneath, it is easy to see they are completely different species. This is why photos from different angles can help you and others identify your photos. 
+
+![Comparison of fungi observations for identifcation purposes](fungi_photo_guide_comparison_1_adrian_power.jpg){width=75%} 
+
+\newpage
+\footnotesize
 ## Thanks
 
 Thank you to everyone who has provided feedback and to everyone on iNaturalist. I hope it's motivating to know how your contributions can be used. Your feedback motivates me to keep producing new volumes.
@@ -1693,13 +1710,6 @@ knitr::kable(
 ```
 ## Open Code
 The source code for the report is available here: [https://github.com/adrian-power/afsm](https://github.com/adrian-power/afsm)  
-
-## How to take photos of fungi for identification purposes
-* take photographs from different angles. Get close and photograph the fungus from above, the side and most importantly, from below. This will help show the different features and make it easier to identify
-* use a mirror or smartphone to get photos from below (of the gills or pores) without disturbing the fungus
-* use a flash or light to get good photos in focus. Photos from too far away, or that are blurry are hard to ID
-* take a photo of the surrounding habitat for context - was the fungi on a log, in the soil, by itself, or with others
-* most of all, have fun!
 
 ## Copyright
 This work, including the [source code](https://github.com/adrian-power/afsm) is licensed under a [Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License](http://creativecommons.org/licenses/by-nc-nd/4.0/).
