@@ -1,10 +1,11 @@
 -- AFSM ETL
--- Version 6 -- 30th Dec 2022
--- Created by and Copyright Adrian Power 2021-2023
+-- Version 7 -- 5th Jan 2024
+-- Created by and Copyright Adrian Power 2021-2024
 -- There are three key sections to this file: initial load, transform, international load
 	-- these need to be executed in order
 
 -- NOTE: Update transform section with each version
+-- search string: UPDATE EACH REPORT
 
 /*
 ###############################################################################
@@ -36,6 +37,8 @@ INITIAL LOAD
 */
 
 SET GLOBAL local_infile = 'ON';
+
+-- create database fungi;
 
 use fungi;
 
@@ -71,8 +74,35 @@ loaded timestamp(6) default current_timestamp(6) NOT NULL, -- enough precision t
 PRIMARY KEY (id, loaded) -- composite key ensures that deltas get loaded and not ignored due to duplicate primary key of id only
 );
 
--- fungi (date range to 2022-01-01)
+-- fungi (date range to 2021-01-01)
 LOAD DATA LOCAL INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/obs_for_db_fungi.csv' 
+INTO TABLE obs 
+FIELDS TERMINATED BY ',' 
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS;
+
+-- deltas 2021 fungi (date range from 2021-01-01 - 2022-01-01)
+-- always load deltas last for larger difference in time stamp
+LOAD DATA LOCAL INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/obs_for_db_fungi_2021.csv' 
+INTO TABLE obs 
+FIELDS TERMINATED BY ',' 
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS;
+
+-- deltas 2022 fungi (date range from 2022-01-01 - 2023-01-01)
+-- always load deltas last for larger difference in time stamp
+LOAD DATA LOCAL INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/obs_for_db_fungi_2022.csv' 
+INTO TABLE obs 
+FIELDS TERMINATED BY ',' 
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS;
+
+-- deltas 2023 fungi (date range from 2023-01-01 - 2024-01-01)
+-- always load deltas last for larger difference in time stamp
+LOAD DATA LOCAL INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/obs_for_db_fungi_2023.csv' 
 INTO TABLE obs 
 FIELDS TERMINATED BY ',' 
 ENCLOSED BY '"'
@@ -89,15 +119,6 @@ IGNORE 1 ROWS;
 
 -- red triangle slugs
 LOAD DATA LOCAL INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/obs_for_db_rts.csv' 
-INTO TABLE obs 
-FIELDS TERMINATED BY ',' 
-ENCLOSED BY '"'
-LINES TERMINATED BY '\n'
-IGNORE 1 ROWS;
-
--- deltas fungi (date range from 2022-01-01)
--- always load deltas last for larger difference in time stamp
-LOAD DATA LOCAL INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/obs_deltas.csv' 
 INTO TABLE obs 
 FIELDS TERMINATED BY ',' 
 ENCLOSED BY '"'
@@ -445,6 +466,14 @@ creates a temporary table from the obs import to apply date functions for the ob
 drop table if exists fungi.obs_temp;
 CREATE TABLE IF NOT EXISTS fungi.obs_temp AS
 (
+
+-- flag duplicates for removal in where clause
+WITH obs_no_dups AS(
+   SELECT *,
+       ROW_NUMBER()OVER(PARTITION BY id ORDER BY id) as ranked_id
+   FROM fungi.obs
+)
+
 SELECT 
 id, 
 observed_on, 
@@ -474,14 +503,16 @@ week(observed_on) as observed_week, -- created here as transformed in next code 
 month(observed_on) as observed_month, -- created here as transformed in next code chunk (obs final)
 datediff(created_at,observed_on) as created_lag, -- created here as transformed in next code chunk (obs final)
 rank() over (partition by id order by loaded desc) as delta -- rank to return only updated records in next code chunk (obs final)
-FROM fungi.obs
-where quality_grade <> 'casual' 
+FROM obs_no_dups -- fungi.obs
+where ranked_id = 1
+	and quality_grade <> 'casual' 
 	and observed_on <> '0000-00-00' 
 	and observed_on <> '0001-01-01' 
 	and observed_on is not null 
-	-- update each report	
-	and observed_on < '2022-12-31' 
-	and created_at 	< '2022-12-31'
+	and latitude > -44 -- excluding macquarie island obs so maps are neater
+	-- UPDATE EACH REPORT	
+	and observed_on <= '2023-12-31' 
+	and created_at 	<= '2023-12-31'
 );
 
 
@@ -1570,7 +1601,7 @@ latitude_reduced,
 longitude_reduced,
 '1. To end 2014' as Date_Range
 from opf
-where observed_on_month < '2014-12-31'
+where observed_on_month <= '2014-12-31'
  
 ),
 
@@ -1592,16 +1623,16 @@ select
 id,
 latitude_reduced,
 longitude_reduced,
-'3. To end 2020' as Date_Range
+'3. To end 2022' as Date_Range
 from opf
-where observed_on_month <= '2020-12-31'
+where observed_on_month <= '2022-12-31'
  
 ),
 
 
 /*
 UPDATE OPF 4 FOR NEXT TIME
-
+UPDATE EACH REPORT
 OPF RANGE
 
 */
@@ -1612,9 +1643,9 @@ select
 id,
 latitude_reduced,
 longitude_reduced,
-'4. To end 2022' as Date_Range
+'4. To end 2023' as Date_Range
 from opf
-where observed_on_month < '2022-12-31'
+where observed_on_month < '2023-12-31'
  
 )
 
